@@ -25,12 +25,24 @@ pub struct Header {
 impl Header {
     /// Returns a new valid genesis header.
     fn genesis() -> Self {
-        Header { parent: 0, height: 0, extrinsics_root: (), state_root: (), consensus_digest: () }
+        Header {
+            parent: 0,
+            height: 0,
+            extrinsics_root: (),
+            state_root: (),
+            consensus_digest: (),
+        }
     }
 
     /// Create and return a valid child header.
     fn child(&self) -> Self {
-        Header { parent: hash(self), height: self.height + 1, extrinsics_root: (), state_root: (), consensus_digest: () }
+        Header {
+            parent: hash(self),
+            height: self.height + 1,
+            extrinsics_root: (),
+            state_root: (),
+            consensus_digest: (),
+        }
     }
 
     /// Verify that all the given headers form a valid chain from this header to the tip.
@@ -44,17 +56,16 @@ impl Header {
             let mut i = chain.len();
             while i > 0 {
                 i -= 1;
-                if chain[i].height != (i+1) as u64 {
+                if chain[i].height != (i + 1) as u64 {
                     return false;
                 }
                 if i == 0 {
                     return chain[i].parent == hash(&Header::genesis());
                 }
                 let header = &chain[i];
-                if header.parent != hash(&chain[i-1]) {
+                if header.parent != hash(&chain[i - 1]) {
                     return false;
                 }
-                
             }
         }
         return false;

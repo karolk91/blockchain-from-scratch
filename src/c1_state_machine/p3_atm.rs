@@ -59,16 +59,43 @@ impl StateMachine for Atm {
 
     fn next_state(starting_state: &Self::State, t: &Self::Transition) -> Self::State {
         match (starting_state, t) {
-            (Atm { cash_inside, expected_pin_hash, keystroke_register }, Action::SwipeCard(n)) if expected_pin_hash == &Auth::Waiting => {
-                Atm { cash_inside: *cash_inside, expected_pin_hash: Auth::Authenticating(*n), keystroke_register: keystroke_register.clone() }
+            (
+                Atm {
+                    cash_inside,
+                    expected_pin_hash,
+                    keystroke_register,
+                },
+                Action::SwipeCard(n),
+            ) if expected_pin_hash == &Auth::Waiting => Atm {
+                cash_inside: *cash_inside,
+                expected_pin_hash: Auth::Authenticating(*n),
+                keystroke_register: keystroke_register.clone(),
             },
-            (Atm { cash_inside, expected_pin_hash, keystroke_register }, Action::SwipeCard(n)) if expected_pin_hash == &Auth::Authenticating(*n) => {
-                Atm { cash_inside: *cash_inside, expected_pin_hash: Auth::Authenticating(*n), keystroke_register: keystroke_register.clone() }
+            (
+                Atm {
+                    cash_inside,
+                    expected_pin_hash,
+                    keystroke_register,
+                },
+                Action::SwipeCard(n),
+            ) if expected_pin_hash == &Auth::Authenticating(*n) => Atm {
+                cash_inside: *cash_inside,
+                expected_pin_hash: Auth::Authenticating(*n),
+                keystroke_register: keystroke_register.clone(),
             },
-            (Atm { cash_inside, expected_pin_hash, keystroke_register }, Action::SwipeCard(n)) if expected_pin_hash == &Auth::Authenticating(*n) => {
-                Atm { cash_inside: *cash_inside, expected_pin_hash: Auth::Authenticating(*n), keystroke_register: keystroke_register.clone() }
+            (
+                Atm {
+                    cash_inside,
+                    expected_pin_hash,
+                    keystroke_register,
+                },
+                Action::SwipeCard(n),
+            ) if expected_pin_hash == &Auth::Authenticating(*n) => Atm {
+                cash_inside: *cash_inside,
+                expected_pin_hash: Auth::Authenticating(*n),
+                keystroke_register: keystroke_register.clone(),
             },
-            _ => starting_state.clone()
+            _ => starting_state.clone(),
         }
     }
 }
