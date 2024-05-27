@@ -62,8 +62,8 @@ impl Header {
     fn verify_sub_chain(&self, chain: &[Header]) -> bool {
         let genesis = &Header::genesis();
 
-        if chain.is_empty() && self == genesis {
-            return true;
+        if chain.is_empty() && self != genesis {
+            return false;
         } else {
             let mut i = chain.len();
             while i > 0 {
