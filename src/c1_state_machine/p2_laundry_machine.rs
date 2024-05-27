@@ -1,5 +1,5 @@
 //! When you wear clothes they get dirty. When you wash them they get wet. When you dry them, they're
-//! ready to be worn again. Or course washing and wearing clothes takes its toll on the clothes, and
+//! ready to be worn again. Of course washing and wearing clothes takes its toll on the clothes, and
 //! eventually they get tattered.
 
 use super::StateMachine;
@@ -40,7 +40,39 @@ impl StateMachine for ClothesMachine {
     type Transition = ClothesAction;
 
     fn next_state(starting_state: &ClothesState, t: &ClothesAction) -> ClothesState {
-        todo!("Exercise 3")
+        match (starting_state, t) {
+            (ClothesState::Clean(n), ClothesAction::Wear) if n > &1 => {
+                ClothesState::Dirty(n-1)
+            },
+            (ClothesState::Clean(n), ClothesAction::Wash) if n > &1 => {
+                ClothesState::Wet(n-1)
+            },
+            (ClothesState::Clean(n), ClothesAction::Dry) if n > &1 => {
+                ClothesState::Clean(n-1)
+            },
+            (ClothesState::Dirty(n), ClothesAction::Wear) if n > &1 => {
+                ClothesState::Dirty(n-1)
+            },
+            (ClothesState::Dirty(n), ClothesAction::Wash) if n > &1 => {
+                ClothesState::Wet(n-1)
+            },
+            (ClothesState::Dirty(n), ClothesAction::Dry) if n > &1 => {
+                ClothesState::Dirty(n-1)
+            },
+            (ClothesState::Wet(n), ClothesAction::Wear) if n > &1 => {
+                ClothesState::Dirty(n-1)
+            },
+            (ClothesState::Wet(n), ClothesAction::Dry) if n > &1 => {
+                ClothesState::Clean(n-1)
+            },
+            (ClothesState::Wet(n), ClothesAction::Wash) if n > &1 => {
+                ClothesState::Wet(n-1)
+            },
+            _ => {
+                ClothesState::Tattered
+            }
+
+        }
     }
 }
 
